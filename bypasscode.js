@@ -80,26 +80,14 @@ document.toggleFunction = function(id){
     chrome.management.setEnabled(id, clickedRow.children[0].children[0].children[0].checked);
 };
 
-document.newBodyData = "<table>"
-console.log(document.newBodyData)
-document.newBodyData += ""
-
-
-chrome.management.getAll(function(){
-    arguments[0].forEach(function(extension){
-        document.newBodyData += "<tr id="+extension.id+">"
-        /*
-        if ("icons" in extension) {
-            document.newBodyData += "<td><img src='"+extension.icons[0]['url']+"'/></td>"
-        }    
-        */
-        document.newBodyData += "<td><label class='switch'><input type='checkbox' " + (extension.enabled ? "checked" : "") + " onclick=\"toggleFunction('"+extension.id+"')\"><span class='slider round'></span></label></td>"
-        document.newBodyData += "<td>"+extension.name+"</td>"
-        document.newBodyData += "<td>"+extension.id+"</td>"
-        document.newBodyData += "<td>"+extension.installType+"</td>"
-        
-        document.newBodyData += "</tr>"
+document.uninstallFunction = function(id){
+    chrome.management.uninstall(id, {showConfirmDialog: true}, function(result){
+        if(result){
+            var row = document.getElementById(id);
+            row.parentNode.removeChild(row);
+        }
     });
-    document.newBodyData += "</table>"
-    document.body.innerHTML = document.newBodyData;
-})
+};
+
+document.newBodyData = "<table>"
+console.
